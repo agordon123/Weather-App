@@ -1,4 +1,5 @@
 <template>
+    <Teleport to="body">
     <Transition name="modal-outer">
     <div 
     v-show="modalActive"
@@ -15,6 +16,7 @@
         </Transition>
     </div>
     </Transition>
+    </Teleport>
 </template>
 
 <script setup>
