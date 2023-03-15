@@ -17,12 +17,13 @@ const getCities = async() => {
     if (localStorage.getItem("savedCities")) {
         savedCities.value = JSON.parse(
             localStorage.getItem("savedCities")
-        )
+        );
+        
         const requests = [];
         savedCities.value.forEach((city) => {
             requests.push(
                 axios.get(
-                    `https://api.openweathermap.org/data/2.5/weather?lat=${city.coords.lat}&lon=${city.coords.lng}&appid=2b776b0a47a3bee89521a5d719a49e7b&units=imperial`
+                    `https://api.openweathermap.org/data/2.5/weather?lat=${city.coords.lat}&lon=${city.coords.lng}&appid=e668bb3f5fa3eb34e12a404335629c77&units=imperial`
                 )
             )
         });
@@ -35,7 +36,7 @@ const getCities = async() => {
 }
 await getCities();
 const router = useRouter();
-const goToCityView = (city) => {
+const goToCityView = async(city) => {
     router.push({
         name: "cityView",
         params: { state: city.state, city: city.city },

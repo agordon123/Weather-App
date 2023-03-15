@@ -14,14 +14,14 @@
         <h1 class="text-4xl mb-2"> {{route.params.city}}</h1>
         <p class="text-sm mb-12">
             {{ 
-                new Date(weatherData.currentTime).toLocaleDateString("en-us",
+                new Date(weatherData.current.dt).toLocaleDateString("en-us",
                 {
                     weekday:"short",
                     day:"2-digit",
                     month:"long"
                 })
              }}
-             {{ new Date(weatherData.currentTime).toLocaleDateString("en-us",
+             {{ new Date(weatherData.current.dt).toLocaleDateString("en-us",
              {
                 timeStyle:"short"
              }) 
@@ -111,10 +111,10 @@ const getWeatherData = async () => {
     
     try {
     
-        const weatherData = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${route.query.lat}&lon=${route.query.lon}&appid=${apiKey}units=imperial`);
+        const weatherData = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${route.query.lat}&lon=${route.query.lon}&appid=${apiKey}units=imperial`)
         const localOffset = new Date().getTimezoneOffset() * 60000;
         const utc = weatherData.data.current.dt * 1000 + localOffset
-        weatherData.data.currentTime = utc + 1000 * weatherData.timezone_offset;
+        weatherData.data.current = utc + 1000 * weatherData.timezone_offset;
 
         weatherData.data.hourly.forEach((hour) => {
             const utc = hour.dt * 1000 + localOffset

@@ -9,31 +9,31 @@
       placeholder="Search for a City or State" 
       class="py-2 px-1 w-full bg-transparent border-b focus:border-weather-secondary focus:outline-none focus:shadow-[0px_1px_0_0_#004E71]" />
    
-  <ul
-  class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
-  v-if="mapboxSearchResults"
-  >
-    <p class="py-2" v-if="searchError">
-    Sorry , Something Went Wrong
-    </p>
-  <p v-if="!serverError && mapboxSearchResults.length === 0">
-    No Results Match your query
-  </p>
-  <template v-else>
-    <li v-for="searchResult in mapboxSearchResults" :key="searchResult.id" class="py-2 cursor-pointer" @click="previewCity(searchResult)">
-      {{ searchResult.place_name }}
-    </li>
-  </template>
+      <ul
+        class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
+        v-if="mapboxSearchResults"
+        >
+        <p class="py-2" v-if="searchError">
+          Sorry , Something Went Wrong
+        </p>
+        <p v-if="!serverError && mapboxSearchResults.length === 0">
+          No Results Match your query
+        </p>
+      <template v-else>
+        <li v-for="searchResult in mapboxSearchResults" :key="searchResult.id" class="py-2 cursor-pointer" @click="previewCity(searchResult)">
+          {{ searchResult.place_name }}
+        </li>
+      </template>
 
-  </ul>
+      </ul>
    </div>
    <div class="flex flex-col gap-4">
-  <Suspense>
-  <CityList />
-  <template #fallback>
-    <CityCardSkeleton />
-  </template>
-  </Suspense>
+    <Suspense>
+    <CityList />
+      <template #fallback>
+        <CityCardSkeleton />
+      </template>
+    </Suspense>
    </div>
   </main>
 </template>
@@ -62,6 +62,7 @@ const previewCity = (mapboxSearchResult) => {
       preview:true,
           }
   })
+  console.log(router.currentRoute.value);
 }
 
 const searchQuery = ref('');
@@ -70,7 +71,7 @@ const mapboxAPIKey = 'pk.eyJ1IjoiYWRhbWc5OTkiLCJhIjoiY2xmOGc1NjRvMTExMDNwcG92cmY
 const mapboxSearchResults = ref(null);
 const searchError = ref(null);
 
-const getSearchResults = () => {
+const getSearchResults = async() => {
   console.log(searchQuery);
   clearTimeout(queryTimeout.value);
   queryTimeout.value = setTimeout(async() => {
